@@ -2,22 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: guestbook
-  namespace: default
+  namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - cluster: in-cluster
-        url: https://127.0.0.1
+   - clusters: {} 
   template:
     metadata:
-      name: 'guestbook'
+      name: '{{cluster}}-guestbook'
     spec:
-      project: "default"
+      project: "default-viv"
       source:
         repoURL: https://github.com/argoproj/argocd-example-apps.git
         targetRevision: HEAD
         path: guestbook
       destination:
-        server: '{{url}}'
+        server: '{{server}}'
         namespace: default
+     
